@@ -1,14 +1,10 @@
 import panel as pn
 pn.extension()
 
-def callback(_):
-    counter.value = str(int(counter.value) + 1)
+def callback(clicks):
+    return pn.widgets.StaticText(name="Clicks", value=str(clicks))
 
 button = pn.widgets.Button(name="Click me!")
-counter = pn.widgets.StaticText(name="Clicks", value="0")
+counter = pn.bind(callback, clicks=button.param.clicks)
 
-# add interactivity
-button.on_click(callback=callback)
-
-column = pn.Column(button, counter)
-column.servable()
+pn.Column(button, counter).servable()
